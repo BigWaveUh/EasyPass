@@ -1,0 +1,45 @@
+import javafx.application.Application;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Optional;
+
+public class SecureRestartPrompt extends Application {
+    @Override
+    public void start(Stage primaryStage) {
+        showRestartPrompt();
+    }
+
+    private void showRestartPrompt() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Restart Required");
+        alert.setHeaderText("IOMMU settings changed");
+        alert.setContentText("A restart is required for changes to take effect.\nWould you like to restart now?");
+
+        ButtonType restartNow = new ButtonType("Restart Now");
+        ButtonType restartLater = new ButtonType("Restart Later");
+
+        alert.getButtonTypes().setAll(restartNow, restartLater);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == restartNow) {
+            restartSystem();
+        }
+    }
+
+    private void restartSystem() {
+        try {
+            // Securely request reboot using pkexec
+            ProcessBuilder pb = new ProcessBuilder("pkexec", "reboot");
+            pb.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
