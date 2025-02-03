@@ -3,4 +3,4 @@ A simple solution for easy and intuitive PCI passthrough for Linux-based systems
 
 ![thumbnail_IMG_9753](https://github.com/user-attachments/assets/c44d2482-eecd-4c62-a029-ce4ba1a9998f)
 
-ALl contributions are welcome!
+All contributions are welcome!
